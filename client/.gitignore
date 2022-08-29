@@ -12,6 +12,7 @@
 /build
 
 # misc
+.env
 .DS_Store
 .env.local
 .env.development.local
@@ -21,3 +22,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+
+
+
+MONGO_URL=mongodb+srv://magnaibra1:Yakabir100@ibrahim1.ozfvgra.mongodb.net/ideapool
+JWT_SECRET=ASDFGHJKL
