@@ -14,4 +14,5 @@ app.use(express_1.default.json());
 (0, db_1.default)();
 app.use('/user', userRoute_1.default);
 app.use('/ideas', ideaRoute_1.default);
-app.listen(5000, () => { console.log('server started on port 5000'); });
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => { console.log(`server started on port ${PORT}`); });
