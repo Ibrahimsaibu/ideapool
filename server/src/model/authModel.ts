@@ -1,7 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const authSchema = new mongoose_1.Schema({
+
+import { Schema, model } from "mongoose";
+
+const authSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -9,6 +9,8 @@ const authSchema = new mongoose_1.Schema({
     email: {
         type: String,
         unique: true,
+
+
     },
     password: {
         type: String,
@@ -16,6 +18,8 @@ const authSchema = new mongoose_1.Schema({
     },
     created: { type: Date, default: Date.now },
     updated: Date
-});
-const authModel = (0, mongoose_1.model)('user', authSchema);
-exports.default = authModel;
+})
+
+const authModel = model('user', authSchema)
+
+export default authModel
