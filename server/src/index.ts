@@ -1,6 +1,6 @@
 import express from 'express';
 import connectDb from './db';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import userRoute from './route/userRoute';
 import ideaRoute from './route/ideaRoute';
 
