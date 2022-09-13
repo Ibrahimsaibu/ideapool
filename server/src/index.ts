@@ -4,11 +4,14 @@ import dotenv from 'dotenv';
 import userRoute from './route/authRoute';
 import ideaRoute from './route/ideaRoute';
 import authRoute from './route/authRoute';
+import cors from 'cors/'
 
 dotenv.config()
 
 const app = express()
+app.use(cors)
 app.use(express.json())
+
 connectDb()
 
 app.use('/auth', authRoute)

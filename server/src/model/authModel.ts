@@ -20,6 +20,6 @@ const authSchema = new Schema({
     updated: Date
 })
 
-const authModel = model('user', authSchema)
+const authModel = model('auth', authSchema)
 
 export default authModel

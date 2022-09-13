@@ -17,5 +17,5 @@ const authSchema = new mongoose_1.Schema({
     created: { type: Date, default: Date.now },
     updated: Date
 });
-const authModel = (0, mongoose_1.model)('user', authSchema);
+const authModel = (0, mongoose_1.model)('auth', authSchema);
 exports.default = authModel;

@@ -2,6 +2,11 @@
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -12,10 +17,7 @@ const userSchema = new Schema({
 
 
     },
-    password: {
-        type: String,
-        select: false
-    },
+
     created: { type: Date, default: Date.now },
     updated: Date
 })
