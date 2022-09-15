@@ -1,7 +1,7 @@
 import express from 'express';
 import connectDb from './db';
 import dotenv from 'dotenv';
-import userRoute from './route/authRoute';
+import userRoute from './route/userRoute';
 import ideaRoute from './route/ideaRoute';
 // import authRoute from './route/authRoute';
 import cors from 'cors/'

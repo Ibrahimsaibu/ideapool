@@ -1,14 +1,14 @@
-import { createUser, login } from '../controller/authController';
-import { Router } from 'express'
+// import { createUser, login } from '../controller/authController';
+// import { Router } from 'express'
 // import authMiddleware from '../middleware/authMiddleware';
 
-const authRoute = Router()
+// const authRoute = Router()
 
-authRoute.post('/signup', createUser)
-authRoute.post('/login', login)
-
-
+// authRoute.post('/signup', createUser)
+// authRoute.post('/login', login)
 
 
 
-export default authRoute
+
+
+// export default authRoute

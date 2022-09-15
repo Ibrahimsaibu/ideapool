@@ -1,6 +1,8 @@
+
+import { createUser, login, getAllUsers, updateUser, getUserbyId, } from './../controller/userController';
 import { Router } from 'express'
-import { getAllUsers, updateUser } from 'src/controller/userController';
-import { createUser, login } from '../controller/authController';
+import authMiddleware from '../middleware/authMiddleware';
+
 
 // import authMiddleware from '../middleware/authMiddleware';
 
@@ -10,5 +12,6 @@ userRoute.post('/signup', createUser)
 userRoute.post('/login', login)
 userRoute.put('/userUpdate', updateUser)
 userRoute.put('/userAll', getAllUsers)
+userRoute.get('/me', authMiddleware, getUserbyId)
 
 export default userRoute

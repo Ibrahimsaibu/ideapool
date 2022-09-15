@@ -67,12 +67,13 @@ const login = async (req, res) => {
             });
         }
         const token = jsonwebtoken_1.default.sign({ userId: user.id }, process.env.JWT_SECRET);
+        console.log(user);
         return res.json({
             success: true,
             message: 'Welcome',
             data: {
                 token,
-                user,
+                userName: user.name,
             }
         });
     }
@@ -129,7 +130,7 @@ const getAllUsers = async (res) => {
 };
 exports.getAllUsers = getAllUsers;
 const getUserbyId = async (req, res) => {
-    const user = await userModal_1.default.findById({ user: req.userId }).select('id name email');
+    const user = await userModal_1.default.findById(req.userId);
     if (!user) {
         return res.json({
             success: true,

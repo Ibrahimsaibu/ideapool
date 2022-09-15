@@ -76,13 +76,13 @@ export const login = async (req: Request, res: Response) => {
 
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string)
 
-
+        console.log(user)
         return res.json({
             success: true,
             message: 'Welcome',
             data: {
                 token,
-                user,
+                userName: user.name,
 
             }
         })
@@ -148,8 +148,11 @@ export const getAllUsers = async (res: Response) => {
 
 }
 
+
+
 export const getUserbyId = async (req: Req, res: Response) => {
-    const user = await userModel.findById({ user: req.userId }).select('id name email')
+    // const user = await userModel.findOne({ user:  }).select('id name email')
+    const user = await userModel.findById(req.userId)
     if (!user) {
         return res.json({
             success: true,
