@@ -70,7 +70,7 @@ const login = async (req, res) => {
         return res.json({
             success: true,
             message: 'Welcome',
-            data: { token: token, userName: user.name }
+            data: { token: token, name: user.name }
         });
     }
     catch (error) {

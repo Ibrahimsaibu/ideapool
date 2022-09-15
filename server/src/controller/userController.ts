@@ -79,7 +79,7 @@ export const login = async (req: Request, res: Response) => {
         return res.json({
             success: true,
             message: 'Welcome',
-            data: { token: token, userName: user.name }
+            data: { token: token, name: user.name }
         })
 
 
