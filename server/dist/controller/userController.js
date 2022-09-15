@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.login = exports.createUser = void 0;
+exports.getUserbyId = exports.getAllUsers = exports.updateUser = exports.login = exports.createUser = void 0;
 const authShema_1 = require("../validationSchema/authShema");
 const argon2_1 = __importDefault(require("argon2"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -70,7 +70,7 @@ const login = async (req, res) => {
         return res.json({
             success: true,
             message: 'Welcome',
-            data: token,
+            data: { token: token, userName: user.name }
         });
     }
     catch (error) {
@@ -109,3 +109,35 @@ const updateUser = async (req, res) => {
     }
 };
 exports.updateUser = updateUser;
+const getAllUsers = async (res) => {
+    const users = await userModal_1.default.find().select('name email');
+    if (users.length === 0) {
+        return res.json({
+            success: true,
+            message: 'No users found',
+            data: []
+        });
+    }
+    return res.json({
+        success: true,
+        message: 'Users successfully fetched',
+        data: users
+    });
+};
+exports.getAllUsers = getAllUsers;
+const getUserbyId = async (req, res) => {
+    const user = await userModal_1.default.findById({ user: req.userId }).select('id name email');
+    if (!user) {
+        return res.json({
+            success: true,
+            message: 'No idea found for this user please create one',
+            data: []
+        });
+    }
+    return res.json({
+        success: true,
+        message: 'user successfully fetched',
+        data: user
+    });
+};
+exports.getUserbyId = getUserbyId;

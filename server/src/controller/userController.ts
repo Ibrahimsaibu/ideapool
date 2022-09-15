@@ -79,7 +79,7 @@ export const login = async (req: Request, res: Response) => {
         return res.json({
             success: true,
             message: 'Welcome',
-            data: token,
+            data: { token: token, userName: user.name }
         })
 
 
@@ -124,4 +124,38 @@ export const updateUser = async (req: Req, res: Response) => {
         })
 
     }
+}
+
+export const getAllUsers = async (res: Response) => {
+    const users = await userModel.find().select('name email')
+    if (users.length === 0) {
+        return res.json({
+            success: true,
+            message: 'No users found',
+            data: []
+        })
+    }
+    return res.json({
+        success: true,
+        message: 'Users successfully fetched',
+        data: users
+    })
+
+}
+
+export const getUserbyId = async (req: Req, res: Response) => {
+    const user = await userModel.findById({ user: req.userId }).select('id name email')
+    if (!user) {
+        return res.json({
+            success: true,
+            message: 'No idea found for this user please create one',
+            data: []
+        })
+    }
+    return res.json({
+        success: true,
+        message: 'user successfully fetched',
+        data: user
+
+    })
 }

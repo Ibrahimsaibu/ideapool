@@ -7,4 +7,5 @@ const userRoute = (0, express_1.Router)();
 userRoute.post('/signup', authController_1.createUser);
 userRoute.post('/login', authController_1.login);
 userRoute.put('/userUpdate', userController_1.updateUser);
+userRoute.put('/userAll', userController_1.getAllUsers);
 exports.default = userRoute;
