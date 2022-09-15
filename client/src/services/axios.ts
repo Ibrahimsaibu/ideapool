@@ -4,14 +4,14 @@ import axios from 'axios'
 
 const axiosInstance = axios.create({
     //baseURL: environment.apiBaseUrl,
-    baseURL: `http://localhost:5000`,
+    baseURL: `https://ideapool-server.onrender.com`,
 });
 
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token',)
+        const token = localStorage.getItem('ideapool_token',)
         if (token) {
             config.headers = {
                 ...config.headers,

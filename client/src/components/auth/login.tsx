@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
 
 interface ILoginFormData {
@@ -8,6 +8,16 @@ interface ILoginFormData {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const getUser = async () => {
+    const res = await axiosInstance.get("/users", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setUser(res.data);
+  };
   const [formData, setFormData] = useState<ILoginFormData>({
     email: "",
     password: "",
@@ -28,7 +38,11 @@ const Login = () => {
       })
       .then(
         (res) => {
-          console.log(res.data);
+          const token = res?.data.data;
+          if (token) {
+            localStorage.setItem("idealpool_token", token);
+          }
+          navigate("/");
         },
         (error) => {
           console.log(error);
@@ -36,8 +50,15 @@ const Login = () => {
       );
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("ideapool_token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ height: "100%" }}>
       <div className="flex justify-center items-center h-full">
         <div className="flex flex-col space-y-8 w-1/2 items-center">
           <h4 className="text-4xl font-medium">Log In</h4>

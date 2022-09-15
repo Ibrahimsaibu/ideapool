@@ -3,7 +3,7 @@ import connectDb from './db';
 import dotenv from 'dotenv';
 import userRoute from './route/authRoute';
 import ideaRoute from './route/ideaRoute';
-import authRoute from './route/authRoute';
+// import authRoute from './route/authRoute';
 import cors from 'cors/'
 
 dotenv.config()
@@ -20,7 +20,7 @@ app.use(express.json())
 
 connectDb()
 
-app.use('/auth', authRoute)
+// app.use('/auth', authRoute)
 app.use('/user', userRoute)
 app.use('/ideas', ideaRoute)
 const PORT = process.env.PORT || 5000

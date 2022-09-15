@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const userController_1 = require("src/controller/userController");
+const authController_1 = require("../controller/authController");
 const userRoute = (0, express_1.Router)();
-userRoute.put('/updateuser', userController_1.updateUser);
+userRoute.post('/signup', authController_1.createUser);
+userRoute.post('/login', authController_1.login);
+userRoute.put('/userUpdate', userController_1.updateUser);
 exports.default = userRoute;
