@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { updateUserSchema, loginSchema, registerShema, } from '../validationSchema/authShema'
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
-import userModel from '../model/authModel'
+import userModel from '../model/userModal'
 
 
 type Req = Request & { userId?: string }

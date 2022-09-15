@@ -7,7 +7,7 @@ exports.updateUser = exports.login = exports.createUser = void 0;
 const authShema_1 = require("../validationSchema/authShema");
 const argon2_1 = __importDefault(require("argon2"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const authModel_1 = __importDefault(require("../model/authModel"));
+const userModal_1 = __importDefault(require("../model/userModal"));
 const createUser = async (req, res) => {
     const { value, error } = authShema_1.registerShema.validate(req.body);
     if (error) {
@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
             data: {}
         });
     }
-    const userExist = await authModel_1.default.findOne({ email: value.email });
+    const userExist = await userModal_1.default.findOne({ email: value.email });
     if (userExist) {
         return res.status(400).json({
             success: false,
@@ -26,10 +26,10 @@ const createUser = async (req, res) => {
         });
     }
     const hashedPassword = await argon2_1.default.hash(value.password);
-    const user = new authModel_1.default(Object.assign(Object.assign({}, value), { password: hashedPassword }));
+    const user = new userModal_1.default(Object.assign(Object.assign({}, value), { password: hashedPassword }));
     const saveduser = await user.save();
     const token = jsonwebtoken_1.default.sign({ userId: saveduser.id }, process.env.JWT_SECRET);
-    const findUser = await authModel_1.default.findById(saveduser.id);
+    const findUser = await userModal_1.default.findById(saveduser.id);
     return res.status(201).json({
         success: true,
         message: 'user created successfully',
@@ -50,7 +50,7 @@ const login = async (req, res) => {
                 data: {}
             });
         }
-        const user = await authModel_1.default.findOne({ email: value.email }).select('+password');
+        const user = await userModal_1.default.findOne({ email: value.email }).select('+password');
         if (!user) {
             return res.status(400).json({
                 success: false,
@@ -92,7 +92,7 @@ const updateUser = async (req, res) => {
                 data: {}
             });
         }
-        await authModel_1.default.findByIdAndUpdate(req.userId, Object.assign({}, value));
+        await userModal_1.default.findByIdAndUpdate(req.userId, Object.assign({}, value));
         return res.json({
             success: true,
             message: "user info successfully updated",
