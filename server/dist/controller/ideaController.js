@@ -25,8 +25,8 @@ const createIdea = async (req, res) => {
 };
 exports.createIdea = createIdea;
 const getIdeas = async (req, res) => {
-    const ideas = await ideaModel_1.default.find({ user: req.userId, isDeleted: false || undefined }).populate('user', 'id name email');
-    if (ideas.length === 0) {
+    const ideas = await ideaModel_1.default.find({ user: req.userId, isDeleted: false }).populate('user', 'id name email');
+    if (ideas.length < 1) {
         return res.json({
             success: true,
             message: 'No idea found for this user please create one',

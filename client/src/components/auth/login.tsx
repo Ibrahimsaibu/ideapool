@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
 
@@ -8,16 +8,10 @@ interface ILoginFormData {
 }
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
+  // const token = localStorage.getItem("idealpool_token");
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const getUser = async () => {
-    const res = await axiosInstance.get("/users", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    setUser(res.data);
-  };
+
   const [formData, setFormData] = useState<ILoginFormData>({
     email: "",
     password: "",
@@ -30,32 +24,26 @@ const Login = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await axiosInstance
-      .post("/auth/login", {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const res = await axiosInstance.post("/user/login", {
         email: formData.email,
         password: formData.password,
-      })
-      .then(
-        (res) => {
-          const token = res?.data.data;
-          if (token) {
-            localStorage.setItem("idealpool_token", token);
-          }
-          navigate("/");
-        },
-        (error) => {
-          console.log(error);
+      });
+      if (res.status === 200) {
+        setLoading(false);
+        const token = res?.data.data.token;
+        if (token) {
+          localStorage.setItem("idealpool_token", token);
+          navigate("/user/idea");
         }
-      );
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("ideapool_token");
-    if (token) {
-      navigate("/");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
     }
-  }, [navigate]);
+  };
 
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
@@ -82,7 +70,7 @@ const Login = () => {
           </div>
           <div className="flex justify-between items-center w-full">
             <button className="px-8 bg-green-500 py-1 text-white">
-              Log in
+              {loading ? "loading" : "Log in"}
             </button>
             <p>
               Don't have an account?{" "}

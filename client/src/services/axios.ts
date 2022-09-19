@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { Router, useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios'
 
 
 
@@ -7,11 +8,10 @@ const axiosInstance = axios.create({
     baseURL: `https://ideapool-server.onrender.com`,
 });
 
-
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('ideapool_token',)
+        const token = localStorage.getItem('idealpool_token',)
         if (token) {
             config.headers = {
                 ...config.headers,
@@ -29,8 +29,12 @@ axiosInstance.interceptors.response.use(
     (response) => {
         return response;
     },
-    (error) => {
+    (error: AxiosError) => {
+        if (error.response?.status === 401) {
+            //signout
+            // navigate('/user/login')
 
+        }
         return Promise.reject(error);
     }
 );
