@@ -1,25 +1,32 @@
+import { useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { IoTrashOutline } from "react-icons/io5";
 import { IdeaProps } from "../user/ideas";
 
 interface IIdeasProps {
-  show: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
   idea: IdeaProps;
+  editClick?: () => void;
+  deleteClick?: () => void;
 }
 
 export const IdeaComponent = ({
-  show,
   idea,
-  onMouseEnter,
-  onMouseLeave,
+  editClick,
+  deleteClick,
 }: IIdeasProps) => {
+  const [isHover, setIsHover] = useState(false);
+
+  const handleMoveIn = () => {
+    setIsHover(true);
+  };
+  const handleMoveOut = () => {
+    setIsHover(false);
+  };
   return (
     <div>
       <ul className="w-full px-4  list-disc list-outside mx-4  text-gray-400  ">
-        <li onMouseOver={onMouseEnter} onMouseLeave={onMouseLeave}>
-          <div className="flex w-full items-center gap-24 ">
+        <li onMouseEnter={handleMoveIn} onMouseLeave={handleMoveOut}>
+          <div className=" flex w-full items-center gap-24">
             <div className="flex-1">
               <p>{idea.text}</p>
             </div>
@@ -52,10 +59,15 @@ export const IdeaComponent = ({
                   <span>{idea.average}</span>
                 </div>
               </div>
-              {show && (
-                <div className="flex items-end justify-between space-x-6">
-                  <AiOutlineEdit size={24} color="green" />
-                  <IoTrashOutline size={24} color="green" />
+              {isHover && (
+                <div className="flex items-end justify-between space-x-6 ">
+                  <button onClick={editClick}>
+                    <AiOutlineEdit size={24} color="green" />
+                  </button>
+
+                  <button onClick={deleteClick}>
+                    <IoTrashOutline size={24} color="green" />
+                  </button>
                 </div>
               )}
             </div>

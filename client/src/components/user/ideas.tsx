@@ -2,14 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { FaRegLightbulb } from "react-icons/fa";
 import { MdOutlineCheck, MdOutlineClose } from "react-icons/md";
-import { AiOutlineEdit } from "react-icons/ai";
-import { IoTrashOutline } from "react-icons/io5";
 import { CounterComponent } from "../counter/counterComponent";
 import axiosInstance from "../../services/axios";
 import { IdeaComponent } from "../ideas/ideas";
 
 interface IIdeaTextProps {
-  text: "";
+  text: string;
 }
 
 export type IdeaProps = {
@@ -27,6 +25,7 @@ export type IdeaProps = {
 const Ideas = () => {
   const [impactCounter, setImpactCounter] = useState<number>(10);
   const [easeCounter, setEaseCounter] = useState<number>(10);
+  const [ideaId, setIdeaId] = useState("");
   const [confidenceCounter, setConfidenceCounter] = useState<number>(10);
   const [ideaText, setIdeaText] = useState<IIdeaTextProps>({
     text: "",
@@ -34,7 +33,6 @@ const Ideas = () => {
   const [ideas, setIdeas] = useState<IdeaProps[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [showIdeaInput, setShowIdeaInput] = useState<Boolean>(false);
-  const [show, setShow] = useState<boolean>(false);
 
   const getIdeas = async () => {
     try {
@@ -54,6 +52,15 @@ const Ideas = () => {
       ...ideaText,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleEdit = (idea: IdeaProps) => {
+    setShowIdeaInput(true);
+    setIdeaId(idea._id);
+    setIdeaText({ text: idea.text });
+    setConfidenceCounter(idea.confidence);
+    setEaseCounter(idea.ease);
+    setImpactCounter(idea.impact);
   };
 
   const increaseImpactCounter = () => {
@@ -100,21 +107,58 @@ const Ideas = () => {
   }, [ideas, showIdeaInput]);
 
   const handleCreateIdea = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosInstance.post("/ideas/createidea", {
-        text: ideaText.text,
-        impact: impactCounter,
-        ease: easeCounter,
-        confidence: confidenceCounter,
-        average: average,
-      });
-      if (res.status === 201) {
+    if (ideaId) {
+      try {
+        const res = await axiosInstance.put(`ideas/${ideaId}`, {
+          text: ideaText.text,
+          impact: impactCounter,
+          ease: easeCounter,
+          confidence: confidenceCounter,
+          average: average,
+        });
+        if (res.status === 200) {
+          setShowIdeaInput(false);
+          getIdeas();
+          setIdeaText({ text: "" });
+          setConfidenceCounter(10);
+          setEaseCounter(10);
+          setImpactCounter(10);
+        }
+      } catch (err) {
         setLoading(false);
+      }
+    } else
+      try {
+        setLoading(true);
+        const res = await axiosInstance.post("/ideas/createidea", {
+          text: ideaText.text,
+          impact: impactCounter,
+          ease: easeCounter,
+          confidence: confidenceCounter,
+          average: average,
+        });
+        if (res.status === 201) {
+          setLoading(false);
+          getIdeas();
+          setIdeaText({ text: "" });
+          setConfidenceCounter(10);
+          setEaseCounter(10);
+          setImpactCounter(10);
+          setShowIdeaInput(false);
+        }
+      } catch (error) {
+        setLoading(false);
+      }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await axiosInstance.delete(`ideas/${id}`);
+      if (res.status === 200) {
         getIdeas();
       }
-    } catch (error) {
-      setLoading(false);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -199,10 +243,9 @@ const Ideas = () => {
           return (
             <div className="mt-7 w-full flex flex-col space-y-7" key={idea._id}>
               <IdeaComponent
-                onMouseEnter={() => setShow(true)}
-                onMouseLeave={() => setShow(false)}
                 idea={idea}
-                show={show}
+                editClick={() => handleEdit(idea)}
+                deleteClick={() => handleDelete(idea._id)}
               />
             </div>
           );
