@@ -6,6 +6,7 @@ export const ideaSchema = joi.object({
     ease: joi.number().required(),
     impact: joi.number().required(),
     confidence: joi.number().required(),
+    average: joi.number().required(),
 
 })
 
@@ -14,4 +15,5 @@ export const updateIdeaSchema = joi.object({
     ease: joi.number(),
     impact: joi.number(),
     confidence: joi.number(),
+    average: joi.number(),
 })

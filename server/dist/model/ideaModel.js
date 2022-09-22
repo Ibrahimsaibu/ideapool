@@ -23,6 +23,10 @@ const ideaSchema = new mongoose_1.Schema({
         type: Number,
         required: true,
     },
+    average: {
+        type: Number,
+        required: true,
+    },
     isDeleted: {
         type: Boolean,
         select: false,

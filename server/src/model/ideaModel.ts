@@ -24,6 +24,10 @@ const ideaSchema = new Schema({
         type: Number,
         required: true,
     },
+    average: {
+        type: Number,
+        required: true,
+    },
 
     isDeleted: {
         type: Boolean,

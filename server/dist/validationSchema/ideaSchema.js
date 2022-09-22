@@ -10,10 +10,12 @@ exports.ideaSchema = joi_1.default.object({
     ease: joi_1.default.number().required(),
     impact: joi_1.default.number().required(),
     confidence: joi_1.default.number().required(),
+    average: joi_1.default.number().required(),
 });
 exports.updateIdeaSchema = joi_1.default.object({
     text: joi_1.default.string(),
     ease: joi_1.default.number(),
     impact: joi_1.default.number(),
     confidence: joi_1.default.number(),
+    average: joi_1.default.number(),
 });
