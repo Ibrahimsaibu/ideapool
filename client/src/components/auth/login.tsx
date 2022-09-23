@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
 
@@ -9,8 +9,21 @@ interface ILoginFormData {
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<boolean>(false);
   // const token = localStorage.getItem("idealpool_token");
   const navigate = useNavigate();
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get("/user/me");
+      if (res.status === 200) {
+        setLoading(false);
+        setUser(true);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState<ILoginFormData>({
     email: "",
@@ -22,6 +35,12 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/user/ideas");
+    }
+  }, [navigate, user]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {

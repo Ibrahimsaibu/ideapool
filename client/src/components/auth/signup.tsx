@@ -34,13 +34,12 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const payload = { ...formValues };
+    setLoading(true);
 
+    const payload = { ...formValues };
     const { formErrors, isValid } = formValidator(payload);
     if (isValid) {
       try {
-        e.preventDefault();
-        setLoading(true);
         const res = await axiosInstance.post("/user/signup", {
           ...payload,
         });
@@ -57,7 +56,6 @@ const Signup = () => {
     }
   };
 
-  console.log("formErrors", formErrors);
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
       <div className="flex justify-center items-center h-full">
@@ -87,7 +85,7 @@ const Signup = () => {
               <span className="text-red-600">{formErrors.email}</span>
             )}
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               name="password"
               value={formValues.password}
@@ -99,7 +97,10 @@ const Signup = () => {
             )}
           </div>
           <div className="flex justify-between items-center w-full">
-            <button className="px-8 bg-green-500 py-1 text-white">
+            <button
+              className="px-8 bg-green-500 py-1 text-white"
+              disabled={loading}
+            >
               {loading ? "loading" : "Sign Up"}
             </button>
             <p>
