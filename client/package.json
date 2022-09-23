@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "homepage": "https://superb-manatee-3e968a.netlify.app",
+ "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
