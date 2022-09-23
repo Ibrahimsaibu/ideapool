@@ -14,15 +14,11 @@ const Login = () => {
   const navigate = useNavigate();
   const getUser = async () => {
     try {
-      setLoading(true);
       const res = await axiosInstance.get("/user/me");
       if (res.status === 200) {
-        setLoading(false);
         setUser(true);
       }
-    } catch (error) {
-      setLoading(false);
-    }
+    } catch (error) {}
   };
 
   const [formData, setFormData] = useState<ILoginFormData>({
@@ -35,12 +31,6 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate("/user/ideas");
-    }
-  }, [navigate, user]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -63,6 +53,13 @@ const Login = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getUser();
+    if (user) {
+      navigate("/user/ideas");
+    }
+  }, [navigate, user]);
 
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
