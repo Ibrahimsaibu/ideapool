@@ -14,9 +14,12 @@ const Login = () => {
   const navigate = useNavigate();
   const getUser = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get("/user/me");
+
       if (res.status === 200) {
         setUser(true);
+        setLoading(false);
       }
     } catch (error) {}
   };
@@ -57,10 +60,11 @@ const Login = () => {
   useEffect(() => {
     getUser();
     if (user) {
-      navigate("/user/ideas");
+      navigate("/user/idea");
     }
   }, [navigate, user]);
 
+  if (loading) return null;
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
       <div className="flex justify-center items-center h-full">
