@@ -55,7 +55,7 @@ export const IdeaComponent = ({
               <div className="flex flex-col items-center space-y-3 text-gray-500 justify-between">
                 <p className="text-sm">Avg.</p>
 
-                <div className="flex justify-center items-center    text-gray-800 ">
+                <div className="flex justify-center items-center  text-gray-800 ">
                   <span>{idea.average}</span>
                 </div>
               </div>
