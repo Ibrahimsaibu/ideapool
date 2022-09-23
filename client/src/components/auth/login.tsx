@@ -64,7 +64,6 @@ const Login = () => {
     }
   }, [navigate, user]);
 
-  if (loading) return null;
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
       <div className="flex justify-center items-center h-full">
