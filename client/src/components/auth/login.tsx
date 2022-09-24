@@ -10,6 +10,7 @@ interface ILoginFormData {
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState<boolean>(false);
   // const token = localStorage.getItem("idealpool_token");
   const navigate = useNavigate();
@@ -40,13 +41,13 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      setLoading(true);
+      setIsLogin(true);
       const res = await axiosInstance.post("/user/login", {
         email: formData.email,
         password: formData.password,
       });
       if (res.status === 200) {
-        setLoading(false);
+        setIsLogin(false);
         const token = res?.data.data.token;
         if (token) {
           localStorage.setItem("idealpool_token", token);
@@ -54,7 +55,7 @@ const Login = () => {
         }
       }
     } catch (error) {
-      setLoading(false);
+      setIsLogin(false);
       console.log(error);
     }
   };
@@ -93,7 +94,7 @@ const Login = () => {
           </div>
           <div className="flex justify-between items-center w-full">
             <button className="px-8 bg-green-500 py-1 text-white">
-              {loading ? (
+              {isLogin ? (
                 <FaSpinner className="animate-spin w-11" size={24} />
               ) : (
                 "Log in"
