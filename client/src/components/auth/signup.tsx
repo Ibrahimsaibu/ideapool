@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
 import { formValidator } from "../../utility/validator";
@@ -19,7 +20,7 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  const [formErrors, setFormErrors] = useState<ISignUpFormData>({
+  const [formError, setFormError] = useState<ISignUpFormData>({
     name: "",
     email: "",
     password: "",
@@ -34,8 +35,6 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-
     const payload = { ...formValues };
     const { formErrors, isValid } = formValidator(payload);
     if (isValid) {
@@ -43,6 +42,8 @@ const Signup = () => {
         const res = await axiosInstance.post("/user/signup", {
           ...payload,
         });
+        setLoading(true);
+
         if (res.status === 201) {
           setLoading(false);
           navigate("/");
@@ -52,7 +53,8 @@ const Signup = () => {
         console.log(error);
       }
     } else {
-      setFormErrors(formErrors);
+      setFormError(formErrors);
+      console.log("formerror ==>", formError);
     }
   };
 
@@ -70,8 +72,8 @@ const Signup = () => {
               onChange={handleChange}
               className="border-b border-grey-500 border-0 rounded-none py-3 px-0 focus:outline-none"
             />
-            {formErrors && (
-              <span className="text-red-600">{formErrors.name}</span>
+            {formError && (
+              <span className="text-red-600">{formError.name}</span>
             )}
             <input
               type="text"
@@ -81,8 +83,8 @@ const Signup = () => {
               onChange={handleChange}
               className="border-b border-grey-500 border-0 rounded-none py-3 px-0 focus:outline-none"
             />
-            {formErrors && (
-              <span className="text-red-600">{formErrors.email}</span>
+            {formError && (
+              <span className="text-red-600">{formError.email}</span>
             )}
             <input
               type="password"
@@ -92,8 +94,8 @@ const Signup = () => {
               onChange={handleChange}
               className="border-b border-grey-500 border-0 rounded-none py-3 px-0 focus:outline-none"
             />
-            {formErrors && (
-              <span className="text-red-600">{formErrors.password}</span>
+            {formError && (
+              <span className="text-red-600">{formError.password}</span>
             )}
           </div>
           <div className="flex justify-between items-center w-full">
@@ -101,7 +103,11 @@ const Signup = () => {
               className="px-8 bg-green-500 py-1 text-white"
               disabled={loading}
             >
-              {loading ? "loading" : "Sign Up"}
+              {loading ? (
+                <FaSpinner className="animate-spin w-11" size={24} />
+              ) : (
+                "Sign Up"
+              )}
             </button>
             <p>
               Already have an account?{" "}

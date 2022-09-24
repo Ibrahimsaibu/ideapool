@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
 
@@ -16,12 +17,13 @@ const Login = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.get("/user/me");
-
       if (res.status === 200) {
         setUser(true);
         setLoading(false);
       }
-    } catch (error) {}
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   const [formData, setFormData] = useState<ILoginFormData>({
@@ -64,6 +66,8 @@ const Login = () => {
     }
   }, [navigate, user]);
 
+  // if (loading) return <FaSpinner className="animate-spin" />;
+
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
       <div className="flex justify-center items-center h-full">
@@ -89,7 +93,11 @@ const Login = () => {
           </div>
           <div className="flex justify-between items-center w-full">
             <button className="px-8 bg-green-500 py-1 text-white">
-              {loading ? "loading" : "Log in"}
+              {loading ? (
+                <FaSpinner className="animate-spin w-11" size={24} />
+              ) : (
+                "Log in"
+              )}
             </button>
             <p>
               Don't have an account?{" "}

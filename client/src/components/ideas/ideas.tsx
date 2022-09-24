@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
+import { FaSpinner } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { IdeaProps } from "../user/ideas";
 
@@ -7,12 +8,16 @@ interface IIdeasProps {
   idea: IdeaProps;
   editClick?: () => void;
   deleteClick?: () => void;
+  isCreating?: boolean;
+  isDeleting?: boolean;
 }
 
 export const IdeaComponent = ({
   idea,
   editClick,
   deleteClick,
+  isCreating,
+  isDeleting,
 }: IIdeasProps) => {
   const [isHover, setIsHover] = useState(false);
 
@@ -62,11 +67,19 @@ export const IdeaComponent = ({
               {isHover && (
                 <div className="flex items-end justify-between space-x-6 ">
                   <button onClick={editClick}>
-                    <AiOutlineEdit size={24} color="green" />
+                    {isCreating ? (
+                      <FaSpinner size={24} color="green" />
+                    ) : (
+                      <AiOutlineEdit size={24} color="green" />
+                    )}
                   </button>
 
                   <button onClick={deleteClick}>
-                    <IoTrashOutline size={24} color="green" />
+                    {isDeleting ? (
+                      <FaSpinner color="red" size={24} />
+                    ) : (
+                      <IoTrashOutline size={24} color="green" />
+                    )}
                   </button>
                 </div>
               )}

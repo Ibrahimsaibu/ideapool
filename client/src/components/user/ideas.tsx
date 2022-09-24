@@ -32,6 +32,8 @@ const Ideas = () => {
   });
   const [ideas, setIdeas] = useState<IdeaProps[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [showIdeaInput, setShowIdeaInput] = useState<Boolean>(false);
 
   const getIdeas = async () => {
@@ -109,6 +111,7 @@ const Ideas = () => {
   const handleCreateIdea = async () => {
     if (ideaId) {
       try {
+        setIsCreating(true);
         const res = await axiosInstance.put(`ideas/${ideaId}`, {
           text: ideaText.text,
           impact: impactCounter,
@@ -117,7 +120,9 @@ const Ideas = () => {
           average: average,
         });
         if (res.status === 200) {
+          setIsCreating(false);
           setShowIdeaInput(false);
+
           getIdeas();
           setIdeaText({ text: "" });
           setConfidenceCounter(10);
@@ -129,7 +134,7 @@ const Ideas = () => {
       }
     } else
       try {
-        setLoading(true);
+        setIsCreating(true);
         const res = await axiosInstance.post("/ideas/createidea", {
           text: ideaText.text,
           impact: impactCounter,
@@ -138,7 +143,8 @@ const Ideas = () => {
           average: average,
         });
         if (res.status === 201) {
-          setLoading(false);
+          setIsCreating(false);
+
           getIdeas();
           setIdeaText({ text: "" });
           setConfidenceCounter(10);
@@ -147,14 +153,17 @@ const Ideas = () => {
           setShowIdeaInput(false);
         }
       } catch (error) {
-        setLoading(false);
+        setIsCreating(false);
       }
   };
 
   const handleDelete = async (id: string) => {
     try {
+      setIsDeleting(true);
+
       const res = await axiosInstance.delete(`ideas/${id}`);
       if (res.status === 200) {
+        setIsDeleting(false);
         getIdeas();
       }
     } catch (err) {
@@ -244,6 +253,8 @@ const Ideas = () => {
             <div className="mt-7 w-full flex flex-col space-y-7" key={idea._id}>
               <IdeaComponent
                 idea={idea}
+                isCreating={isCreating}
+                isDeleting={isDeleting}
                 editClick={() => handleEdit(idea)}
                 deleteClick={() => handleDelete(idea._id)}
               />

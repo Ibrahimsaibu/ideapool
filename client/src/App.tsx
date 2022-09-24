@@ -11,10 +11,9 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/user/idea" element={<Ideas />} />
-          <Route path="/auth/signup" element={<Signup />} />
           <Route path="/" element={<Login />} />
-          {/* <Route path="/login" element={<HomePage />} /> */}
+          <Route path="/auth/signup" element={<Signup />} />
+          <Route path="/user/idea" element={<Ideas />} />
         </Routes>
       </Layout>
     </Router>
