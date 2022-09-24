@@ -110,7 +110,6 @@ const Ideas = () => {
 
   const handleCreateIdea = async () => {
     setIsCreating(true);
-
     if (ideaId) {
       try {
         const res = await axiosInstance.put(`ideas/${ideaId}`, {
