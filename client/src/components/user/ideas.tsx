@@ -109,8 +109,9 @@ const Ideas = () => {
   }, [ideas, showIdeaInput]);
 
   const handleCreateIdea = async () => {
+    setIsCreating(true);
+
     if (ideaId) {
-      setIsCreating(true);
       try {
         const res = await axiosInstance.put(`ideas/${ideaId}`, {
           text: ideaText.text,
@@ -128,12 +129,9 @@ const Ideas = () => {
           setEaseCounter(10);
           setImpactCounter(10);
         }
-      } catch (err) {
-        setLoading(false);
-      }
+      } catch (err) {}
     } else
       try {
-        setIsCreating(true);
         const res = await axiosInstance.post("/ideas/createidea", {
           text: ideaText.text,
           impact: impactCounter,
