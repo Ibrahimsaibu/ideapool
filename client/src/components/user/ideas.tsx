@@ -110,8 +110,8 @@ const Ideas = () => {
 
   const handleCreateIdea = async () => {
     if (ideaId) {
+      setIsCreating(true);
       try {
-        setIsCreating(true);
         const res = await axiosInstance.put(`ideas/${ideaId}`, {
           text: ideaText.text,
           impact: impactCounter,
@@ -122,7 +122,6 @@ const Ideas = () => {
         if (res.status === 200) {
           setIsCreating(false);
           setShowIdeaInput(false);
-
           getIdeas();
           setIdeaText({ text: "" });
           setConfidenceCounter(10);
@@ -160,7 +159,6 @@ const Ideas = () => {
   const handleDelete = async (id: string) => {
     try {
       setIsDeleting(true);
-
       const res = await axiosInstance.delete(`ideas/${id}`);
       if (res.status === 200) {
         setIsDeleting(false);
