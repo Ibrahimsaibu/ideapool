@@ -67,7 +67,12 @@ const Login = () => {
     }
   }, [navigate, user]);
 
-  // if (loading) return <FaSpinner className="animate-spin" />;
+  if (loading)
+    return (
+      <div className="h-full flex justify-center items-center">
+        <FaSpinner className="animate-spin" color="green" size={42} />;
+      </div>
+    );
 
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
