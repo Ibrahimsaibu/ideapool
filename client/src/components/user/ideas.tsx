@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { BsPlusCircleFill } from "react-icons/bs";
-import { FaRegLightbulb } from "react-icons/fa";
+import { FaRegLightbulb, FaSpinner } from "react-icons/fa";
 import { MdOutlineCheck, MdOutlineClose } from "react-icons/md";
 import { CounterComponent } from "../counter/counterComponent";
 import axiosInstance from "../../services/axios";
@@ -171,7 +171,12 @@ const Ideas = () => {
     getIdeas();
   }, []);
 
-  if (loading) return <div>Loading..</div>;
+  if (loading)
+    return (
+      <div className="h-full flex justify-center items-center">
+        <FaSpinner className="animate-spin" color="green" size={42} />;
+      </div>
+    );
   return (
     <div className="md:mx-20 pt-10  mx-0 h-screen ">
       <div className="w-full   px-4  pb-10 flex justify-between items-center border-b border-gray-300">
@@ -219,7 +224,11 @@ const Ideas = () => {
                 </div>
                 <div className="flex items-end justify-between space-x-6">
                   <button onClick={handleCreateIdea}>
-                    <MdOutlineCheck size={32} color="green" />
+                    {isCreating ? (
+                      <FaSpinner size={24} color="green" />
+                    ) : (
+                      <MdOutlineCheck size={32} color="green" />
+                    )}
                   </button>
                   <button>
                     <MdOutlineClose
@@ -249,7 +258,6 @@ const Ideas = () => {
             <div className="mt-7 w-full flex flex-col space-y-7" key={idea._id}>
               <IdeaComponent
                 idea={idea}
-                isCreating={isCreating}
                 isDeleting={isDeleting}
                 editClick={() => handleEdit(idea)}
                 deleteClick={() => handleDelete(idea._id)}

@@ -8,7 +8,7 @@ interface IIdeasProps {
   idea: IdeaProps;
   editClick?: () => void;
   deleteClick?: () => void;
-  isCreating?: boolean;
+
   isDeleting?: boolean;
 }
 
@@ -16,7 +16,7 @@ export const IdeaComponent = ({
   idea,
   editClick,
   deleteClick,
-  isCreating,
+
   isDeleting,
 }: IIdeasProps) => {
   const [isHover, setIsHover] = useState(false);
@@ -67,11 +67,7 @@ export const IdeaComponent = ({
               {isHover && (
                 <div className="flex items-end justify-between space-x-6 ">
                   <button onClick={editClick}>
-                    {isCreating ? (
-                      <FaSpinner size={24} color="green" />
-                    ) : (
-                      <AiOutlineEdit size={24} color="green" />
-                    )}
+                    <AiOutlineEdit size={24} color="green" />
                   </button>
 
                   <button onClick={deleteClick}>
