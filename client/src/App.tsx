@@ -4,12 +4,16 @@ import Signup from "./components/auth/signup";
 import Login from "./components/auth/login";
 import Ideas from "./components/user/ideas";
 import { Layout } from "./components/sidebar/layout";
+import { Toaster } from "react-hot-toast";
 // import Login from "./components/auth/login";
 
 function App() {
   return (
     <Router>
       <Layout>
+        <div>
+          <Toaster />
+        </div>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />

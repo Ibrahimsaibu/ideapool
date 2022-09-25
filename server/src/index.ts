@@ -9,11 +9,18 @@ import cors from 'cors/'
 dotenv.config()
 
 const app = express()
-const allowedOrigins = ['https://ideapoolmern.netlify.app'];
+const allowedOrigins = ['https://ideapoolmern.netlify.app', 'localhost:3000'];
 
 const options: cors.CorsOptions = {
-    origin: allowedOrigins
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin!) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
 };
+
 
 app.use(cors(options))
 app.use(express.json())

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
@@ -54,9 +55,9 @@ const Login = () => {
           navigate("/user/idea");
         }
       }
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.message);
       setIsLogin(false);
-      console.log(error);
     }
   };
 

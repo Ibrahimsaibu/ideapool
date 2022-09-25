@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/axios";
@@ -48,9 +49,10 @@ const Signup = () => {
           setLoading(false);
           navigate("/");
         }
-      } catch (error) {
+      } catch (error: any) {
+        toast.error(error.message);
         setLoading(false);
-        console.log(error);
+        // console.log(error?.message);
       }
     } else {
       setFormError(formErrors);
