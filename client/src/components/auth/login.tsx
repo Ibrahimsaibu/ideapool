@@ -10,23 +10,11 @@ interface ILoginFormData {
 }
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const [user, setUser] = useState<boolean>(false);
+  // const [user, setUser] = useState<boolean>(false);
   // const token = localStorage.getItem("idealpool_token");
   const navigate = useNavigate();
-  const getUser = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosInstance.get("/user/me");
-      if (res.status === 200) {
-        setUser(true);
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   const [formData, setFormData] = useState<ILoginFormData>({
     email: "",
@@ -56,24 +44,10 @@ const Login = () => {
         }
       }
     } catch (error: any) {
-      toast.error(error.message);
       setIsLogin(false);
+      toast.error(error.message);
     }
   };
-
-  useEffect(() => {
-    getUser();
-    if (user) {
-      navigate("/user/idea");
-    }
-  }, [navigate, user]);
-
-  if (loading)
-    return (
-      <div className="h-full flex justify-center items-center">
-        <FaSpinner className="animate-spin" color="green" size={42} />;
-      </div>
-    );
 
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
