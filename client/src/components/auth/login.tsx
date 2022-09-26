@@ -15,6 +15,7 @@ const Login = () => {
   const [user, setUser] = useState<boolean>(false);
   // const token = localStorage.getItem("idealpool_token");
   const navigate = useNavigate();
+
   const getUser = async () => {
     try {
       setLoading(true);
@@ -56,8 +57,8 @@ const Login = () => {
         }
       }
     } catch (error: any) {
-      toast.error(error.message);
       setIsLogin(false);
+      toast.error(error.message);
     }
   };
 
