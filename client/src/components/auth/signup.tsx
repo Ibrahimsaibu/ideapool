@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,7 +12,21 @@ interface ISignUpFormData {
 }
 
 const Signup = () => {
+  const [user, setUser] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const getUser = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get("/user/me");
+      if (res.status === 200) {
+        setUser(true);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
   const [loading, setLoading] = useState(false);
 
@@ -60,6 +74,14 @@ const Signup = () => {
     }
   };
 
+  useEffect(() => {
+    getUser();
+    if (user) {
+      navigate("/user/idea");
+    }
+  }, [navigate, user]);
+
+  if (loading) return null;
   return (
     <form onSubmit={handleSubmit} style={{ height: "100%" }}>
       <div className="flex justify-center items-center h-full">
